@@ -341,7 +341,7 @@ export default function App() {
                 <AnimatePresence initial={false}>
                   {names.map((person, index) => (
                     <motion.div 
-                      key={`${person.id}-${index}`}
+                      key={`person-${person.id}-${index}`}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
@@ -523,7 +523,7 @@ export default function App() {
                       </div>
                       <div className="grid grid-cols-3 gap-2">
                         {group.members.map((m, i) => (
-                          <div key={`${m.id}-${i}`} className="bg-white p-2 rounded-lg text-center font-black text-slate-600 shadow-sm text-[11px] border border-slate-100/50" title={m.name}>
+                          <div key={`group-member-${group.id}-${m.id}-${i}`} className="bg-white p-2 rounded-lg text-center font-black text-slate-600 shadow-sm text-[11px] border border-slate-100/50" title={m.name}>
                             {m.id}
                           </div>
                         ))}
