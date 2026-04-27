@@ -37,6 +37,7 @@ export default function App() {
   const [groups, setGroups] = useState<Group[]>([]);
   const [numGroups, setNumGroups] = useState(2);
   const [winner, setWinner] = useState<Person | null>(null);
+  const [displayTitle, setDisplayTitle] = useState('上傳抽籤規則與規範後以更新標題');
   const [isDrawing, setIsDrawing] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -98,6 +99,18 @@ export default function App() {
   };
 
   // Handle File Upload
+  const downloadTemplate = () => {
+    const wsData = [
+      ['員工編號', '員工姓名', '部門'],
+      ['t10001', '張小明', '軟體部'],
+      ['t10002', '李大華', '行銷部'],
+    ];
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "名單範例");
+    XLSX.writeFile(wb, "待分組名單範例.xlsx");
+  };
+
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -107,6 +120,10 @@ export default function App() {
     if (extension === 'pdf') {
       const url = URL.createObjectURL(file);
       setPdfUrl(url);
+      
+      // Extract filename without extension to use as display title
+      const fileNameWithoutExt = file.name.replace(/\.[^/.]+$/, "");
+      setDisplayTitle(fileNameWithoutExt);
       return;
     }
 
@@ -199,7 +216,7 @@ export default function App() {
       members: []
     }));
 
-    shuffled.forEach((person, index) => {
+    shuffled.forEach((person: Person, index: number) => {
       newGroups[index % numGroups].members.push(person);
     });
 
@@ -230,8 +247,8 @@ export default function App() {
               <UsersRound className="w-7 h-7 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-black text-slate-800 tracking-tight">歲末大獎分組抽籤</h1>
-              <p className="text-sm text-slate-500 font-medium">Year-End Team Shuffle & Lucky Draw</p>
+              <h1 className="text-2xl font-black text-slate-800 tracking-tight">{displayTitle}</h1>
+              <p className="text-sm text-slate-500 font-medium">Smart Team Shuffle & Lucky Draw</p>
             </div>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -303,6 +320,14 @@ export default function App() {
             <div className="bg-white rounded-3xl vibrant-shadow flex flex-col p-6 h-full max-h-[800px]">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-bold text-slate-700">待分組名單</h2>
+                <button 
+                  onClick={downloadTemplate}
+                  className="flex items-center gap-1 text-[11px] font-black text-indigo-500 hover:text-indigo-700 bg-indigo-50 px-2.5 py-1.5 rounded-lg transition-colors border border-indigo-100/50"
+                  title="下載 Excel 範例檔"
+                >
+                  <FileSpreadsheet className="w-3.5 h-3.5" />
+                  <span>範例檔</span>
+                </button>
               </div>
               
               <form onSubmit={addPerson} className="space-y-2 mb-6">
