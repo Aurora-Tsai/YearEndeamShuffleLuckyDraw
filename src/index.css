@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Noto Sans TC", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer components {
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .vibrant-shadow {
+    box-shadow: 0 15px 30px -10px rgba(79, 70, 229, 0.2);
+  }
+
+  .group-card-1 { border-top: 6px solid #FF6B6B; }
+  .group-card-2 { border-top: 6px solid #4D96FF; }
+  .group-card-3 { border-top: 6px solid #6BCB77; }
+  .group-card-4 { border-top: 6px solid #FFD93D; }
+  /* Cycle colors for more groups */
+  .group-card-5 { border-top: 6px solid #A78BFA; }
+  .group-card-6 { border-top: 6px solid #F472B6; }
+}
+
+body {
+  background-color: #F0F7FF;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
